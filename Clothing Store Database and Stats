@@ -1,0 +1,25 @@
+--Create a clothing store database
+
+CREATE TABLE my_store (id INTEGER PRIMARY KEY, clothing_item TEXT, item_amount INTEGER,color TEXT, size TEXT, price INTEGER);
+
+INSERT INTO my_store VALUES(1,"shirt",7,"pink","medium",38);
+INSERT INTO my_store VALUES(2,"shirt",9,"pink","large",38);
+INSERT INTO my_store VALUES(3,"shirt",5,"pink","small",38);
+INSERT INTO my_store VALUES(4,"shirt",10,"yellow","small",38);
+INSERT INTO my_store VALUES(5,"shirt",8,"yellow","large",38);
+INSERT INTO my_store VALUES(6,"shirt",9,"yellow","medium",38);
+INSERT INTO my_store VALUES(7,"pants",5,"blue","medium",40);
+INSERT INTO my_store VALUES(8,"pants",9,"blue","small",40);
+INSERT INTO my_store VALUES(9,"pants",7,"blue","large",40);
+INSERT INTO my_store VALUES(10,"pants",9,"brown","medium",40);
+INSERT INTO my_store VALUES(11,"pants",6,"brown","small",40);
+INSERT INTO my_store VALUES(12,"pants",7,"brown","large",40);
+INSERT INTO my_store VALUES(13,"dress",8,"red","small",55);
+INSERT INTO my_store VALUES(14,"dress",7,"red","medium",55);
+INSERT INTO my_store VALUES(15,"dress",6,"red","large",55);
+
+--display the database ordered by price
+SELECT * FROM my_store ORDER BY price desc;
+
+--display how many clothing items of each color are in stock
+SELECT color, clothing_item, SUM(item_amount) FROM my_store GROUP BY color;
