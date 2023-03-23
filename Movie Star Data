@@ -1,0 +1,50 @@
+CREATE TABLE movie_stars (
+id INTEGER PRIMARY KEY AUTOINCREMENT, 
+name TEXT);
+
+INSERT INTO movie_stars VALUES (1,"Meryl Streep");
+INSERT INTO movie_stars VALUES (2,"Anna Kendrick");
+INSERT INTO movie_stars VALUES (3,"Anne Hathaway");
+INSERT INTO movie_stars VALUES (4,"James Corden");
+INSERT INTO movie_stars VALUES (5,"Emily Blunt");
+INSERT INTO movie_stars VALUES (6,"John Krasinski");
+
+CREATE TABLE movies (id INTEGER PRIMARY KEY, name TEXT, actor_id INTEGER);
+
+INSERT INTO movies VALUES (1,"Into The Woods",1);
+INSERT INTO movies VALUES (2,"Into The Woods",3);
+INSERT INTO movies VALUES (3,"Into The Woods",4);
+INSERT INTO movies VALUES (4,"Into The Woods",5);
+INSERT INTO movies VALUES (5, "Devil Wears Prada", 1);
+INSERT INTO movies VALUES (6, "Devil Wears Prada", 2);
+INSERT INTO movies VALUES (7, "Devil Wears Prada", 5);
+INSERT INTO movies VALUES (8, "Quiet Place", 5);
+INSERT INTO movies VALUES (9, "Quiet Place", 6);
+
+CREATE TABLE spouse (id INTEGER PRIMARY KEY, spouse1_id INTEGER, spouse2_id INTEGER);
+
+INSERT INTO spouse VALUES (1,5,6);
+
+CREATE TABLE coworkers (id INTEGER PRIMARY KEY AUTOINCREMENT, coworker1_id INTEGER, coworker2_id INTEGER);
+
+INSERT INTO coworkers VALUES (1,1,2);
+INSERT INTO coworkers VALUES (2,1,3);
+INSERT INTO coworkers VALUES (3,1,4);
+INSERT INTO coworkers VALUES (4,1,5);
+INSERT INTO coworkers VALUES (5,2,4);
+INSERT INTO coworkers VALUES (6,2,5);
+INSERT INTO coworkers VALUES (7,3,5);
+INSERT INTO coworkers VALUES (8,4,5);
+INSERT INTO coworkers VALUES (9,5,6);
+
+/*seeing all the actors in the movie "Into The Woods"*/
+SELECT movie_stars.name, movies.name FROM movies JOIN movie_stars ON movie_stars.id = movies.actor_id WHERE movies.name = "Into The Woods";
+
+/*seeing all the actors in the movie "Devil Wears Prada"*/
+SELECT movie_stars.name, movies.name FROM movies JOIN movie_stars ON movie_stars.id = movies.actor_id WHERE movies.name = "Devil Wears Prada";
+
+/*seeing what actors are married*/
+SELECT a.name, b.name FROM spouse JOIN movie_stars a ON spouse.spouse1_id = a.id JOIN movie_stars b ON spouse.spouse2_id = b.id;
+
+/*seeing which actors have been coworkers*/
+SELECT a.name, b.name FROM coworkers JOIN movie_stars a ON coworkers.coworker1_id = a.id JOIN movie_stars b ON coworkers.coworker2_id = b.id;
