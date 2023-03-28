@@ -1,0 +1,32 @@
+/* 5 rows to see the components of the table "netflix_titles_info"*/
+SELECT * FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" LIMIT 5;
+
+/*joining the two tables*/
+SELECT *
+ FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ JOIN "CharlotteChaze/BreakIntoTech"."netflix_people" people
+ ON titles.show_id = people.show_id;
+
+/*How many Movie titles are in the table "netflix_titles_info"*/
+SELECT count(title) FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+WHERE type = 'Movie';
+
+/* date of the most recent Movie added to the database*/
+ SELECT max(date(date_added)) FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info";
+
+/* listing the titles of the Movies and TV Shows in ABC order*/
+SELECT title FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" 
+ORDER BY title asc;
+
+/* Joining the 2 tables to find the name of the person who directed "Bright Star" */
+SELECT titles.title, people.director
+ FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" titles
+ LEFT JOIN "CharlotteChaze/BreakIntoTech"."netflix_people" people
+ ON titles.show_id = people.show_id
+ WHERE titles.title = 'Bright Star';
+
+/* Figuring out the oldest movie in the database and what year it was released */
+SELECT title, release_year
+ FROM "CharlotteChaze/BreakIntoTech"."netflix_titles_info" 
+ ORDER BY release_year asc
+ LIMIT 1;
