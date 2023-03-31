@@ -1,0 +1,51 @@
+/*Showing the average danceability of each song and its artist*/
+SELECT avg(danceability) , artist_name, track_name
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name;
+
+/*Showing the top 10 most popular artists*/
+SELECT artist_name, avg(popularity)
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY avg(popularity) desc
+LIMIT 10;
+
+/*Showing which artist had the longest song*/
+SELECT artist_name, duration_ms
+FROM BIT_DB.Spotifydata
+GROUP BY artist_name
+ORDER BY duration_ms desc
+LIMIT 1;
+
+/*Showing the average danceability of the top 10 most popular songs*/
+SELECT avg(danceability), popularity, track_name
+FROM BIT_DB.Spotifydata
+GROUP BY track_name
+ORDER BY popularity desc
+LIMIT 10;
+
+/*Showing the 10 ten danceable songs and how the tempo correlates*/
+SELECT track_name,danceability, tempo
+FROM BIT_DB.Spotifydata
+GROUP BY track_name
+ORDER BY danceability desc
+LIMIT 10;
+
+/*Showing the top 5 most popular songs' key*/
+SELECT track_name, popularity,song_key
+FROM BIT_DB.Spotifydata
+GROUP BY track_name
+ORDER BY popularity desc
+LIMIT 5;
+
+/*Showing the popularity of the 5 shortest songs*/
+SELECT track_name, duration_ms, popularity
+FROM BIT_DB.Spotifydata
+GROUP BY track_name
+ORDER BY duration_ms asc
+LIMIT 5;
+
+/*Showing the average popularity and danceability of all the Olivia Rodrigo songs*/
+SELECT artist_name, avg(popularity), avg(danceability)
+FROM BIT_DB.Spotifydata
+WHERE artist_name like "Olivia Rodrigo";
