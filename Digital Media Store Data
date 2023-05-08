@@ -1,0 +1,128 @@
+/*Customer's full name, customer ID, and country who are not in the United States*/
+SELECT FirstName, LastName, CustomerId, Country 
+FROM chinook.customers 
+WHERE Country != "USA";
+
+/*Showing the customers from Brazil*/
+SELECT * FROM chinook.customers 
+WHERE Country = "Brazil" ;
+
+/*Showing the invoices of customers who are from Brazil*/
+SELECT cust.FirstName, cust.LastName, inv.InvoiceId, inv.BillingCountry, inv.InvoiceDate
+FROM chinook.invoices as inv 
+LEFT JOIN chinook.customers as cust 
+on inv.CustomerId = cust.CustomerId 
+WHERE inv.BillingCountry = "Brazil";
+
+/*Showing the employees who are Sales Agents*/
+SELECT * FROM chinook.Employees
+WHERE Title = "Sales Support Agent" ;
+
+
+/*Showing a distinct list of billing countries from the invoice table*/
+SELECT DISTINCT BillingCountry FROM chinook.Invoices ;
+
+/*Showing the invoices associated with each sales agent*/
+SELECT emp.LastName, emp.Firstname, inv.InvoiceId
+FROM chinook.Employees emp 
+JOIN chinook.Customers cust 
+ON cust.SupportRepId = emp.EmployeeId
+JOIN chinook.Invoices Inv 
+ON Inv.CustomerId = cust.CustomerId;
+
+/*Showing the invoice total, the customer's name, the country, and the sales agent for all the invoices*/
+SELECT emp.LastName, emp.Firstname, cust.FirstName, cust.LastName, cust.Country, inv.total
+FROM chinook.employees emp 
+JOIN chinook.Customers cust ON cust.SupportRepId = emp.EmployeeId
+JOIN chinook.Invoices Inv ON Inv.CustomerId = cust.CustomerId;
+
+/*Showing how many invoices there were in 2009*/
+SELECT COUNT(*)
+FROM chinook.Invoices
+WHERE InvoiceDate like '2009%';
+
+/*Showing the total sales in 2009*/
+SELECT SUM(Total)
+FROM chinook.Invoices
+WHERE InvoiceDate like '2009%';
+
+/*Showing the track name wiht each invoice line ID*/
+SELECT t.Name, i.InvoiceLineId
+FROM chinook.Invoice_items i
+JOIN chinook.Tracks t 
+ON i.TrackId = t.TrackId;
+
+/*Showing the track and artist name with each invoice line ID*/
+SELECT ar.name as Artist, t.Name as Track, i.InvoiceLineId
+FROM chinook.Invoice_items i
+LEFT JOIN chinook.tracks t 
+ON i.TrackID=t.TrackID
+INNER JOIN chinook.albums a
+ON a.AlbumID=t.AlbumID
+LEFT JOIN chinook.artists ar
+ON ar.ArtistID=a.ArtistID;
+
+/*Showing the track name, album name, media type, and the genre*/
+SELECT t.Name AS Track_Name, a.Title AS Album_Title, m.Name AS Media_Type, g.Name AS Genre
+FROM chinook.tracks t
+JOIN chinook.Albums a 
+on a.AlbumId = t.AlbumId
+JOIN chinook.Media_Types m
+on m.MediaTypeId = t.MediaTypeId
+JOIN chinook.Genres g
+on g.GenreId = t.GenreId;
+
+/*Showing the total sales made by each sales agent*/
+SELECT emp.FirstName, emp.LastName,
+SUM(Inv.Total) as 'Total Sales' 
+FROM chinook.Employees emp
+JOIN chinook.Customers cust 
+ON cust.SupportRepId = emp.EmployeeId
+JOIN chinook.Invoices Inv 
+ON Inv.CustomerId = cust.CustomerId
+WHERE emp.Title = 'Sales Support Agent' 
+GROUP BY emp.FirstName;
+
+/*Showing the sales agent who made the most dollars in sales in 2009*/
+SELECT emp.FirstName, emp.LastName,
+SUM(Inv.Total) as 'Total Sales' 
+FROM chinook.Employees emp
+JOIN chinook.Customers cust 
+ON cust.SupportRepId = emp.EmployeeId
+JOIN chinook.Invoices Inv 
+ON Inv.CustomerId = cust.CustomerId
+WHERE emp.Title = 'Sales Support Agent' 
+AND Inv.InvoiceDate LIKE '2009%' 
+GROUP BY emp.FirstName
+ORDER BY sum(Inv.Total)  DESC LIMIT 1;
+
+/*Showing the track names and the playlist name of which they belong*/
+SELECT p.name AS 'Playlist name', t.name AS 'Track name'
+FROM chinook.playlists p
+JOIN chinook.playlist_track pt
+ON p.Playlistid = pt.Playlistid
+JOIN chinook.tracks t
+ON pt.Trackid = t.Trackid
+ORDER BY p.name;
+
+/*Showing the album name each customer ordered*/
+SELECT a.Title AS 'Album Title', c.FristName, c.LastName
+FROM chinook.albums a
+JOIN chinook.tracks t
+ON a.Albumid = t.Albumid
+JOIN chinook.invoice_items item
+ON t.TrackId = item.TrackId
+JOIN chinook.invoices i
+ON item.InvoiceId = i.invoiceId
+JOIN chinook.customers c
+ON i.CustomerId = c.CustomerId;
+
+/*Showing who each employee reports to*/
+SELECT e1.FirstName, e1.LastName, e2.FirstName, e2.LastName
+FROM chinook.employees e1
+LEFT JOIN chinook.employees e2
+ON e1.EmployeeId = e2.ReportsTo;
+
+
+
+
